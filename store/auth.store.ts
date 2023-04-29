@@ -15,7 +15,7 @@ interface AuthState {
   /**
    * The organization selected/being viewed on the client dashboard/pages, if the current user is a regular user
    * its the organization that he belongs too, if the user is a master user its the organization he selected to
-   * acess its dashboard / pages
+   * access its dashboard / pages
    */
   organizationId: number | null
 }

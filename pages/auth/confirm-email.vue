@@ -6,7 +6,7 @@ type reqStatus =
   | 'waiting'
   | 'success'
   | 'unauthorized'
-  | 'unknowError'
+  | 'unknownError'
 
 const token = useRoute().query['token']
 
@@ -19,7 +19,7 @@ const confirmEmail = () => {
       requestStatus.value =
         response.status === HTTP_STATUS.UNAUTHORIZED
           ? 'unauthorized'
-          : 'unknowError'
+          : 'unknownError'
     },
   })
 
@@ -47,7 +47,7 @@ const messageDict: Record<reqStatus, { title: string; description: string }> = {
     title: 'error',
     description: 'token not found',
   },
-  unknowError: {
+  unknownError: {
     title: 'oops',
     description: 'something went wrong',
   },

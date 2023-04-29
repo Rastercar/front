@@ -43,16 +43,16 @@ const openOauthPopup = () => {
     }
   }
 
-  // unfortunately due to the multiple redirects in the opened windown
-  // we dont "own" it anymore and cannot force it to close with windown.close()
+  // unfortunately due to the multiple redirects in the opened window
+  // we do not "own" it anymore and cannot force it to close with window.close()
   // nor listen to its events, so all we can do is check if the user closed
   // the popup with pooling
   timer = setInterval(checkPopupWasClosed, 1000)
 }
 
 /**
- * Starts the google oauth2 authentification process by opening a new window
- * or redirecting to the rastercar app google authentification endpoint
+ * Starts the google oauth2 authentication process by opening a new window
+ * or redirecting to the rastercar app google authentication endpoint
  */
 const openGoogleAccountAuthWindow = () => {
   if (redirectingOrOpeningPopup.value) return

@@ -12,7 +12,7 @@
     </p>
 
     <NuxtLink
-      to="auth/register"
+      to="/auth/forgot-password"
       class="text-blue"
       style="text-decoration: none"
     >
