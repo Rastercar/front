@@ -17,3 +17,8 @@ export interface ApiSendEmailAddressConfirmationResponse {
     token: string
   }
 }
+
+export interface SendEmailResponse {
+  message: string
+  emailUuid: string
+}

@@ -3,6 +3,7 @@ import useVuelidate from '@vuelidate/core'
 
 const isCheckingEmail = ref(false)
 const willCheckEmail = ref(false)
+const xd = ref(false)
 
 const v = useVuelidate()
 

@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { useAuthStore } from '@/store/auth.store'
+import { Socket } from 'socket.io-client'
+import { SendEmailResponse } from '~~/api/auth'
 
 const props = defineProps({
   /**
@@ -101,21 +103,45 @@ const label = computed(() =>
     : 'recover password email sent'
 )
 
-// TODO: a ideia aqui é realizar o envio e escutar atualizações através de websocket
-// assim quando um evento do tipo delivery chegar nos podemos emitir um evento para o
-// componente pai que substitui o formulario por
-// uma mensagem de sucesso (provavelmente um checkmark enorme com "email enviado")
-// no lado da api o mailer service provavelmente vai ter um metodo que liga uma escuta
-// do rabbitmq e passa isso para o websocket, mas vamos ter que ver como isso vai funcionar no node ?
-// (event emmiter ? ????)
-const sendEmail = async (email: string) => {
-  const { data, execute } = useApi<string>(`auth/send-forgot-password-email`, {
-    method: 'POST',
-    body: { email },
-    immediate: false,
+let emailEventsSocket: Socket | null = null
+
+const listenToEmailEvents = (emailUuid: string) => {
+  if (emailEventsSocket !== null) return
+
+  emailEventsSocket = useApiWebsocket('email', { query: { emailUuid } })
+
+  emailEventsSocket.on('email-event', (data) => {
+    console.log('email-event', data)
   })
 
-  execute().then(() => console.log({ data }))
+  setTimeout(testDisc, 5000)
+}
+
+// TODO: maybe this whole listen to email events can be a composable ?
+// eg: const {startListening, stopListening, onEvent} = useEmailEvents(emailUuid)
+
+const testDisc = () => {
+  if (emailEventsSocket === null) return
+  console.log('DISC')
+  emailEventsSocket.disconnect()
+}
+
+const sendEmail = async (email: string) => {
+  const { data, execute } = useApi<SendEmailResponse>(
+    `auth/send-forgot-password-email`,
+    {
+      method: 'POST',
+      body: { email },
+      immediate: false,
+    }
+  )
+
+  execute().then(() => {
+    if (data.value === null) return
+
+    const { emailUuid } = data.value
+    listenToEmailEvents(emailUuid)
+  })
 }
 </script>
 

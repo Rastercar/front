@@ -48,7 +48,7 @@ const logIn = ({ user, token }: ApiLoginResponse) => {
       <v-card width="400px" class="elevation-5">
         <v-toolbar color="#355C7D" class="mb-4" flat>
           <v-card-title class="text-white w-100 text-center">
-            Wellcome to Rastercar
+            Welcome to Rastercar
           </v-card-title>
         </v-toolbar>
 
@@ -93,8 +93,8 @@ const logIn = ({ user, token }: ApiLoginResponse) => {
               <v-btn
                 @click="
                   () => {
-                    formState.email = 'master.user@gmail.com'
-                    formState.password = 'masteruser'
+                    formState.email = 'rastercar.tests.001@gmail.com'
+                    formState.password = 'masteruser1'
                     attemptLogin()
                   }
                 "
