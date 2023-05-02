@@ -41,11 +41,14 @@ const props = defineProps({
   },
 })
 
-const emit = defineEmits([
-  'reset-password-email-sending:sent',
-  'reset-password-email-sending:failure',
-  'reset-password-email-sending:delivered',
-])
+const emit = defineEmits<{
+  // a reset password email was successfully requested,
+  // this does NOT mean the email arrived at the recipient inbox
+  (e: 'reset-password-email-sending:sent', emailUuid: string): void
+
+  // a reset password email request was sent but the server returned an error
+  (e: 'reset-password-email-sending:failure'): void
+}>()
 
 const timesEmailWasSent = ref(0)
 const loading = ref(false)
@@ -62,38 +65,10 @@ const requestEmail = () => {
   loading.value = true
 
   sendEmail(email)
-    .catch(() => {
-      emit('reset-password-email-sending:failure')
-    })
-    .then(() => {
-      timesEmailWasSent.value++
-      emit('reset-password-email-sending:sent')
-    })
-    .finally(() => {
-      loading.value = false
-    })
+    .then(() => timesEmailWasSent.value++)
+    .catch(() => emit('reset-password-email-sending:failure'))
+    .finally(() => (loading.value = false))
 }
-
-const tooltipText = computed(() => {
-  if (loading.value) return 'Sending email...'
-
-  const email = authStore.user?.email
-
-  if (timesEmailWasSent.value === 0) {
-    const emailTxt = email ?? 'your email address'
-    return `Send a redefine password email to ${emailTxt}`
-  }
-
-  const sentTxt = timesEmailWasSent.value === 1 ? 'sent' : 'resent'
-
-  const canSendAgain = timesEmailWasSent.value < props.maxEmailRequests
-
-  const msg = email
-    ? `Recover password email ${sentTxt} to ${email}`
-    : `Recover password email ${sentTxt} to your email address`
-
-  return canSendAgain ? `${msg}. click to resend` : msg
-})
 
 const label = computed(() =>
   timesEmailWasSent.value === 0
@@ -102,29 +77,6 @@ const label = computed(() =>
     ? 'recover password email resent'
     : 'recover password email sent'
 )
-
-let emailEventsSocket: Socket | null = null
-
-const listenToEmailEvents = (emailUuid: string) => {
-  if (emailEventsSocket !== null) return
-
-  emailEventsSocket = useApiWebsocket('email', { query: { emailUuid } })
-
-  emailEventsSocket.on('email-event', (data) => {
-    console.log('email-event', data)
-  })
-
-  setTimeout(testDisc, 5000)
-}
-
-// TODO: maybe this whole listen to email events can be a composable ?
-// eg: const {startListening, stopListening, onEvent} = useEmailEvents(emailUuid)
-
-const testDisc = () => {
-  if (emailEventsSocket === null) return
-  console.log('DISC')
-  emailEventsSocket.disconnect()
-}
 
 const sendEmail = async (email: string) => {
   const { data, execute } = useApi<SendEmailResponse>(
@@ -140,7 +92,7 @@ const sendEmail = async (email: string) => {
     if (data.value === null) return
 
     const { emailUuid } = data.value
-    listenToEmailEvents(emailUuid)
+    emit('reset-password-email-sending:sent', emailUuid)
   })
 }
 </script>
@@ -161,8 +113,5 @@ const sendEmail = async (email: string) => {
     @click="requestEmail"
   >
     {{ label }}
-    <v-tooltip activator="parent" location="bottom">
-      {{ tooltipText }}
-    </v-tooltip>
   </v-btn>
 </template>

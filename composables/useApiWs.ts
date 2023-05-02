@@ -8,9 +8,5 @@ export const useApiWebsocket = (
 
   const uri = config.public.apiBaseUrl + path
 
-  const socket = io(uri, opts)
-
-  onBeforeUnmount(() => socket.disconnect())
-
-  return socket
+  return io(uri, opts)
 }
