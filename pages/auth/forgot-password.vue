@@ -2,27 +2,16 @@
 import useVuelidate from '@vuelidate/core'
 import { Socket } from 'socket.io-client'
 
+type status = 'not_sent' | 'sending' | 'sending_finished' | 'delivered'
+
+const emailStatus = ref<status>('not_sent')
 const isCheckingEmail = ref(false)
 const willCheckEmail = ref(false)
-
-const emailStatus = ref<'not_sent' | 'sent' | 'delivered'>('not_sent')
+const email = ref('')
 
 const v = useVuelidate()
 
-const email = ref('')
-
 let emailEventsSocket: Socket | null = null
-
-const onForgotPasswordEmailDelivered = () => {
-  console.log('delivered')
-  closeWebSocket()
-  emailStatus.value = 'delivered'
-}
-
-const onForgotPasswordEmailSendingFinished = () => {
-  console.log('sent')
-  emailStatus.value = 'sent'
-}
 
 const closeWebSocket = () => {
   if (!emailEventsSocket) return
@@ -32,32 +21,30 @@ const closeWebSocket = () => {
 }
 
 const listenToEmailEvents = (emailUuid: string) => {
-  console.log('!')
   if (emailEventsSocket !== null) return
+
+  emailStatus.value = 'sending'
 
   const { socket, onSendingFinished, onDelivery } = useEmailEvents(emailUuid)
 
   emailEventsSocket = socket
 
-  onSendingFinished(onForgotPasswordEmailSendingFinished)
-  onDelivery(onForgotPasswordEmailDelivered)
+  onSendingFinished(() => {
+    emailStatus.value = 'sending_finished'
+  })
+
+  onDelivery(() => {
+    closeWebSocket()
+    emailStatus.value = 'delivered'
+  })
 
   setTimeout(closeWebSocket, 20 * 1000)
 }
-
-// TODO: finish me !
-setTimeout(() => {
-  emailStatus.value = 'sent'
-}, 1 * 2000)
-
-setTimeout(() => {
-  emailStatus.value = 'delivered'
-}, 1 * 4000)
 </script>
 
 <template>
-  <v-container fluid fill-height class="ma-0 pa-0 page-container">
-    <v-row align="center" justify="center" class="page-content">
+  <v-container fluid fill-height class="ma-0 pa-0">
+    <v-row align="center" justify="center">
       <v-card class="elevation-5 mx-auto" style="max-width: 500px">
         <template v-if="emailStatus === 'not_sent'">
           <v-card-title class="mx-1 mt-4">Forgot your password ?</v-card-title>
@@ -87,7 +74,7 @@ setTimeout(() => {
           </div>
         </template>
 
-        <div v-else>EMAIL STATUS {{ emailStatus }}</div>
+        <ForgotPasswordEmailSentMessage v-else :email-status="emailStatus" />
       </v-card>
     </v-row>
   </v-container>

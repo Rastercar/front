@@ -43,8 +43,8 @@ const logIn = ({ user, token }: ApiLoginResponse) => {
 </script>
 
 <template>
-  <v-container fluid fill-height class="ma-0 pa-0 page-container">
-    <v-row align="center" justify="center" class="page-content">
+  <v-container fluid fill-height class="ma-0 pa-0">
+    <v-row align="center" justify="center">
       <v-card width="400px" class="elevation-5">
         <v-toolbar color="#355C7D" class="mb-4" flat>
           <v-card-title class="text-white w-100 text-center">
