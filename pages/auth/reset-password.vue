@@ -51,77 +51,67 @@ const resetPassword = () => {
   <v-container fluid fill-height class="ma-0 pa-0">
     <v-row align="center" justify="center">
       <v-card style="width: 500px">
-        <v-toolbar
-          v-if="reqStatus === 'loading' || reqStatus === 'not-sent'"
-          color="#355C7D"
-          class="mb-4"
-          flat
-        >
-          <v-card-title class="text-white w-100 text-center">
-            Redefine password
-          </v-card-title>
-        </v-toolbar>
+        <template v-if="reqStatus === 'loading' || reqStatus === 'not-sent'">
+          <v-toolbar color="#355C7D" class="mb-4" flat>
+            <v-card-title class="text-white w-100 text-center">
+              Redefine password
+            </v-card-title>
+          </v-toolbar>
 
-        <v-card-subtitle>
-          Please inform and confirm your new password
-        </v-card-subtitle>
+          <v-card-subtitle>
+            Please inform and confirm your new password
+          </v-card-subtitle>
 
-        <div
-          v-if="reqStatus === 'loading' || reqStatus === 'not-sent'"
-          class="mx-4 mb-6 mt-4"
-        >
-          <InputPassword
-            v-model="newPassword"
-            v-model:visible="passwordVisibility"
-            required
-            label="New Password"
-          />
+          <div class="mx-4 mb-6 mt-4">
+            <InputPassword
+              v-model="newPassword"
+              v-model:visible="passwordVisibility"
+              required
+              label="New Password"
+            />
 
-          <InputPasswordConfirmation
-            v-model="newPasswordConfirmation"
-            v-model:visible="passwordVisibility"
-            class="my-4"
-            :password-to-match="newPassword"
-          />
+            <InputPasswordConfirmation
+              v-model="newPasswordConfirmation"
+              v-model:visible="passwordVisibility"
+              class="my-4"
+              :password-to-match="newPassword"
+            />
 
-          <v-btn
-            :loading="reqStatus === 'loading'"
-            :disabled="v.$invalid"
-            block
-            color="green"
-            @click="resetPassword"
-          >
-            Change Password
-          </v-btn>
+            <v-btn
+              :loading="reqStatus === 'loading'"
+              :disabled="v.$invalid"
+              block
+              color="green"
+              @click="resetPassword"
+            >
+              Change Password
+            </v-btn>
 
-          <div class="text-center mt-4 text-body-2">
-            Not what you are looking for ? <NuxtLink to="/">go back</NuxtLink>
+            <div class="text-center mt-4 text-body-2">
+              Not what you are looking for ? <NuxtLink to="/">go back</NuxtLink>
+            </div>
           </div>
+        </template>
 
-          <!-- TODO: ADD BUTTON TO GO BACK TO ROOT / -->
-        </div>
-
-        <!-- TODO: FINISH ME! -->
-        <!-- TODO: ADD ERROR AND SUCCESS MESSAGES -->
-        <!-- <PasswordResetSuccess
+        <ResetPasswordSuccessMessage
           v-else-if="reqStatus === 'success'"
-          class="q-ma-lg"
+          class="my-10 mx-4"
         />
 
-        <PasswordResetError
+        <ResetPasswordErrorMessage
           v-else
-          class="q-ma-lg"
+          class="ma-6"
           :title="
             reqStatus === 'unauthorized'
-              ? '401 - Não autorizado'
-              : '500 - Oops algo deu errado'
+              ? '401 - Unauthorized'
+              : '500 - Oops, something went wrong'
           "
           :message="
             reqStatus === 'unauthorized'
-              ? 'Parece que seu token expirou ou é invalido, por favor requisite um novo email de redefinição de senha'
-              : 'Erro interno do sistema, por favor requisite um novo email de redefinição de senha'
+              ? 'Seems like your password reset token expired, please send a new password reset email'
+              : 'Internal server error, please try again with a new password reset email'
           "
-        /> -->
+        />
       </v-card>
     </v-row>
   </v-container>
