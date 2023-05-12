@@ -1,3 +1,4 @@
+import { useNotificationsStore } from './notifications.store'
 import { defineStore } from 'pinia'
 import { User } from '~~/api/types'
 
@@ -26,6 +27,15 @@ interface LoginArgs {
   organizationId?: number | null
 }
 
+const addEmailNotVerifiedNotification = () => {
+  const notificationStore = useNotificationsStore()
+
+  notificationStore.addClientSideNotification({
+    type: 'emailVerificationRequired',
+    priority: 5,
+  })
+}
+
 export const useAuthStore = defineStore('auth', {
   persist: true,
 
@@ -41,10 +51,12 @@ export const useAuthStore = defineStore('auth', {
   },
 
   actions: {
-    login({ bearerToken, organizationId, user }: LoginArgs) {
+    logIn({ bearerToken, organizationId, user }: LoginArgs) {
       this.user = user
       this.apiToken = bearerToken
       this.organizationId = organizationId ?? null
+
+      if (!user.emailVerified) addEmailNotVerifiedNotification()
     },
 
     logOut() {

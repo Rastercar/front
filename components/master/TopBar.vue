@@ -11,11 +11,13 @@ const logout = () => {
 
 <template>
   <v-app-bar title="Rastercar">
+    <ButtonUserNotifications class="mr-2" />
+
     <v-btn
+      class="ml-auto mr-2 px-4"
+      prepend-icon="fa fa-door-open"
+      variant="outlined"
       @click="logout"
-      class="ml-auto mr-2 mb-2 px-3 text-white"
-      color="blue-darken-4"
-      variant="flat"
     >
       Log out
     </v-btn>

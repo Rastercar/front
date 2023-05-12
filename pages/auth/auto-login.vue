@@ -32,7 +32,7 @@ const attemptLogin = async () => {
 
   if (data.value) {
     const { token, user } = data.value
-    authStore.login({ bearerToken: token.value, user: user })
+    authStore.logIn({ bearerToken: token.value, user: user })
     navigateTo('/')
   }
 }

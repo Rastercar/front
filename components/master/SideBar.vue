@@ -9,9 +9,9 @@ interface SideBarRoute {
 }
 
 const routes: SideBarRoute[] = [
-  { icon: 'mdi-home-city', title: 'Home' },
-  { icon: 'mdi-account', title: 'My Account' },
-  { icon: 'mdi-account-group-outline', title: 'Users' },
+  { icon: 'fa fa-home', title: 'Home' },
+  { icon: 'fa fa-user', title: 'My Account' },
+  { icon: 'fa fa-users', title: 'Users' },
 ]
 </script>
 

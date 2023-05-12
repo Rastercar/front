@@ -36,7 +36,7 @@ const attemptLogin = async () => {
 }
 
 const logIn = ({ user, token }: ApiLoginResponse) => {
-  authStore.login({ bearerToken: token.value, user })
+  authStore.logIn({ bearerToken: token.value, user })
 
   if (user.masterAccessLevel) navigateTo('/master')
 }

@@ -29,9 +29,7 @@ const listenToEmailEvents = (emailUuid: string) => {
 
   emailEventsSocket = socket
 
-  onSendingFinished(() => {
-    emailStatus.value = 'sending_finished'
-  })
+  onSendingFinished(() => (emailStatus.value = 'sending_finished'))
 
   onDelivery(() => {
     closeWebSocket()

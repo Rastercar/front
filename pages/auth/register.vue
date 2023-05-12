@@ -77,7 +77,7 @@ const submitForm = async () => {
 
   if (data.value) {
     const { user, token } = data.value
-    authStore.login({ user, bearerToken: token.value })
+    authStore.logIn({ user, bearerToken: token.value })
     navigateTo('/')
   }
 }

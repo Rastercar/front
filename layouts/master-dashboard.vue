@@ -1,8 +1,8 @@
 <template>
   <v-layout>
-    <MasterTopbar />
+    <MasterTopBar />
 
-    <MasterSidebar />
+    <MasterSideBar />
 
     <v-main>
       <NuxtPage />
