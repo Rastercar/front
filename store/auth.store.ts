@@ -29,11 +29,9 @@ interface LoginArgs {
 
 const addEmailNotVerifiedNotification = () => {
   const notificationStore = useNotificationsStore()
+  const type = 'emailVerificationRequired'
 
-  notificationStore.addClientSideNotification({
-    type: 'emailVerificationRequired',
-    priority: 5,
-  })
+  notificationStore.addClientSideNotification({ id: type, type, priority: 5 })
 }
 
 export const useAuthStore = defineStore('auth', {

@@ -1,4 +1,4 @@
-import { defineStore } from 'pinia'
+import { PiniaPluginContext, defineStore } from 'pinia'
 import { v4 as uuid } from 'uuid'
 
 /**
@@ -64,7 +64,20 @@ interface NotificationsState {
 }
 
 export const useNotificationsStore = defineStore('notifications', {
-  persist: true,
+  persist: {
+    afterRestore: (ctx) => {
+      const context = ctx as unknown as PiniaPluginContext<
+        string,
+        NotificationsState
+      >
+
+      context.store.$state.notifications.forEach((notification) => {
+        // when restoring from local storage date objects are saved as strings
+        // and cannot be converted back to Date unless done explicitly
+        notification.date = new Date(notification.date)
+      })
+    },
+  },
 
   state: (): NotificationsState => ({ notifications: [] }),
 
@@ -86,6 +99,11 @@ export const useNotificationsStore = defineStore('notifications', {
     },
 
     addNotification(notification: Notification) {
+      const notificationIdPresent =
+        this.notifications.findIndex((n) => n.id === notification.id) !== -1
+
+      if (notificationIdPresent) return
+
       let insertionIdx = 0
 
       const nTime = notification.date.getTime()

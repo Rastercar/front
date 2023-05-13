@@ -5,19 +5,6 @@ export interface ApiLoginResponse {
   token: Token
 }
 
-export interface ApiSendEmailAddressConfirmationResponse {
-  meta: {
-    /**
-     * The link to the PWA email confirmationPage
-     */
-    link: string
-    /**
-     * The short expiration token to be used to confirm the email
-     */
-    token: string
-  }
-}
-
 export interface SendEmailResponse {
   message: string
   emailUuid: string

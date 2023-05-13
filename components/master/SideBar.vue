@@ -22,6 +22,7 @@ const routes: SideBarRoute[] = [
     permanent
     @click="layoutStore.drawer.mini = false"
   >
+    <!-- TODO: avatar! -->
     <v-list-item
       prepend-avatar="https://randomuser.me/api/portraits/men/1.jpg"
       title="Vitor Guidorizzi"
@@ -31,9 +32,10 @@ const routes: SideBarRoute[] = [
       <template v-slot:append>
         <v-btn
           variant="text"
-          icon="mdi-chevron-left"
+          icon="fa fa-chevron-left"
+          size="small"
           @click.stop="layoutStore.drawer.mini = !layoutStore.drawer.mini"
-        ></v-btn>
+        />
       </template>
     </v-list-item>
 
