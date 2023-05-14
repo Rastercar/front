@@ -1,19 +1,39 @@
 <script setup lang="ts">
+import { useAuthStore } from '~~/store/auth.store'
 import {
   clientSideNotifications,
   useNotificationsStore,
 } from '~~/store/notifications.store'
 
+type maybeComponent = ReturnType<typeof resolveComponent>
 type NotificationComponentMap = Record<clientSideNotifications, maybeComponent>
 
 const nStore = useNotificationsStore()
 
-const firstFiveNotifications = computed(() => nStore.notifications.slice(0, 5))
+const maxNotificationsToDisplay = 5
 
-type maybeComponent = ReturnType<typeof resolveComponent>
+const mostRecentNotifications = computed(() =>
+  nStore.notifications.slice(0, maxNotificationsToDisplay)
+)
 
 const notificationComponents: NotificationComponentMap = {
   emailVerificationRequired: resolveComponent('NotificationEmailNotVerified'),
+}
+
+const authStore = useAuthStore()
+
+if (authStore.user) {
+  const type = 'emailVerificationRequired' as const
+
+  const emailNotVerifiedNotification = {
+    id: type,
+    type,
+    priority: 5 as const,
+  }
+
+  authStore.user.emailVerified
+    ? nStore.removeClientSideByType(type)
+    : nStore.addClientSideNotification(emailNotVerifiedNotification)
 }
 </script>
 
@@ -24,9 +44,10 @@ const notificationComponents: NotificationComponentMap = {
         activator="parent"
         :close-on-content-click="false"
         max-width="300px"
+        location="bottom end"
       >
         <v-list>
-          <template v-for="(notification, i) in firstFiveNotifications">
+          <template v-for="(notification, i) in mostRecentNotifications">
             <template v-if="notification.content">
               <v-list-item :key="i">
                 <template v-slot:prepend>
@@ -50,8 +71,32 @@ const notificationComponents: NotificationComponentMap = {
             </template>
           </template>
 
-          <v-list-item>
-            <v-list-item-title> too much notifications </v-list-item-title>
+          <template
+            v-if="nStore.pendingNotificationsCount > maxNotificationsToDisplay"
+          >
+            <v-divider />
+
+            <v-list-item>
+              <v-btn
+                size="small"
+                color="primary"
+                class="mt-2"
+                append-icon="fa fa-bell"
+                block
+                @click="() => navigateTo('/notifications')"
+              >
+                see all your notifications
+              </v-btn>
+            </v-list-item>
+          </template>
+
+          <v-list-item v-if="nStore.pendingNotificationsCount === 0">
+            <v-list-item-title>All clear</v-list-item-title>
+
+            <v-list-item-subtitle>
+              you have no notifications
+              <v-icon icon="fa fa-check" color="green" size="small" />
+            </v-list-item-subtitle>
           </v-list-item>
         </v-list>
       </v-menu>

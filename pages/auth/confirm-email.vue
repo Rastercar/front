@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { HTTP_STATUS } from '~~/constants/http-status'
+import { useAuthStore } from '~~/store/auth.store'
+import { useNotificationsStore } from '~~/store/notifications.store'
 
 type reqStatus =
   | 'wontSend'
@@ -12,22 +14,25 @@ const token = useRoute().query['token']
 
 const requestStatus = ref<reqStatus>(token ? 'waiting' : 'wontSend')
 
+const authStore = useAuthStore()
+const nStore = useNotificationsStore()
+
 const confirmEmail = () => {
-  const { execute } = useApi<string>(`/auth/confirm-email-address`, {
-    immediate: false,
-    onResponseError: ({ response }) => {
-      requestStatus.value =
-        response.status === HTTP_STATUS.UNAUTHORIZED
-          ? 'unauthorized'
-          : 'unknownError'
+  useApi<string>(`/auth/confirm-email-address`, {
+    onResponse: ({ response }) => {
+      const codeToStatus: Record<string, reqStatus> = {
+        [HTTP_STATUS.OK]: 'success',
+        [HTTP_STATUS.UNAUTHORIZED]: 'unauthorized',
+      }
+
+      requestStatus.value = codeToStatus[response.status] ?? 'unknownError'
+
+      if (requestStatus.value === 'success') {
+        authStore.setUserEmailVerified(true)
+        nStore.removeClientSideByType('emailVerificationRequired')
+      }
     },
   })
-
-  execute()
-    .then(() => {
-      requestStatus.value = 'success'
-    })
-    .catch(() => null)
 }
 
 const messageDict: Record<reqStatus, { title: string; description: string }> = {
@@ -36,7 +41,7 @@ const messageDict: Record<reqStatus, { title: string; description: string }> = {
     description: 'your email address was confirmed',
   },
   waiting: {
-    title: 'loading',
+    title: 'confirming your email',
     description: 'please wait...',
   },
   unauthorized: {
@@ -55,35 +60,39 @@ const messageDict: Record<reqStatus, { title: string; description: string }> = {
 
 const message = computed(() => messageDict[requestStatus.value])
 
-if (token) setTimeout(confirmEmail, 500)
+onMounted(() => {
+  if (token) setTimeout(confirmEmail, 500)
+})
 </script>
 
 <template>
   <div
-    class="w-100 h-100 bg-blue text-white text-center d-flex justify-center align-center"
+    class="w-100 h-100 bg-blue text-center d-flex justify-center align-center"
   >
-    <div style="max-width: 700px">
-      <div class="text-h2">{{ message.title }}</div>
-      <div class="text-h4 my-4" style="opacity: 0.5">
+    <v-card class="pa-4" style="max-width: 700px">
+      <v-card-title class="text-h3 py-4">
+        {{ message.title }}
+      </v-card-title>
+
+      <v-card-subtitle class="text-h5 pt-2">
         {{ message.description }}
+      </v-card-subtitle>
+
+      <div v-show="requestStatus === 'waiting'" class="px-4 mt-8">
+        <v-progress-linear indeterminate />
       </div>
 
-      <v-progress-linear
-        v-show="requestStatus === 'waiting'"
-        indeterminate
-        color="white"
-        class="mt-4"
-      />
-
-      <v-btn
-        v-show="requestStatus !== 'waiting'"
-        class="w-100 mt-4"
-        color="grey"
-        style="max-width: 300px"
-        @click="navigateTo('/')"
-      >
-        Go back
-      </v-btn>
-    </div>
+      <v-card-actions v-show="requestStatus !== 'waiting'">
+        <v-btn
+          class="w-100 mt-4"
+          color="primary"
+          variant="elevated"
+          prepend-icon="fa fa-home"
+          @click="navigateTo('/')"
+        >
+          Go back
+        </v-btn>
+      </v-card-actions>
+    </v-card>
   </div>
 </template>

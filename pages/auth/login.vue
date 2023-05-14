@@ -89,6 +89,7 @@ const logIn = ({ user, token }: ApiLoginResponse) => {
               SIGN IN WITH GOOGLE
             </LoginGoogleButton>
 
+            <!-- TODO: REMOVE BE BEFORE LAUNCHING PROD (also never seed a prod DB) -->
             <DevOnly>
               <v-btn
                 @click="

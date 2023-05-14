@@ -94,7 +94,7 @@ export const useNotificationsStore = defineStore('notifications', {
       this.notifications.splice(idx, 1)
     },
 
-    removeByType(type: string) {
+    removeClientSideByType(type: clientSideNotifications) {
       this.notifications = this.notifications.filter((n) => n.type !== type)
     },
 

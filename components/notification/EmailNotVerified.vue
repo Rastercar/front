@@ -128,7 +128,10 @@ const listenToEmailEvents = (emailUuid: string) => {
             rounded="0"
             elevation="0"
             @click="
-              () => notificationStore.removeByType('emailVerificationRequired')
+              () =>
+                notificationStore.removeClientSideByType(
+                  'emailVerificationRequired'
+                )
             "
           >
             ignore
@@ -154,7 +157,10 @@ const listenToEmailEvents = (emailUuid: string) => {
         elevation="0"
         block
         @click="
-          () => notificationStore.removeByType('emailVerificationRequired')
+          () =>
+            notificationStore.removeClientSideByType(
+              'emailVerificationRequired'
+            )
         "
       >
         close

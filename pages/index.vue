@@ -1,5 +1,19 @@
 <script setup lang="ts">
-definePageMeta({ requiredLoginStatus: 'loggedIn' })
+import { useAuthStore } from '~~/store/auth.store'
+
+definePageMeta({
+  middleware: [
+    function (to, from) {
+      const auth = useAuthStore()
+
+      if (auth.isLoggedIn) {
+        return auth.isMasterUser
+          ? navigateTo('/master')
+          : navigateTo('/tracked')
+      }
+    },
+  ],
+})
 </script>
 
 <template>
