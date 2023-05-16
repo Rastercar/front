@@ -91,11 +91,18 @@ if (authStore.user) {
           </template>
 
           <v-list-item v-if="nStore.pendingNotificationsCount === 0">
-            <v-list-item-title>All clear</v-list-item-title>
+            <v-list-item-title>
+              All clear
+              <v-icon
+                icon="fa fa-check"
+                color="green"
+                size="small"
+                class="ml-1 mb-1"
+              />
+            </v-list-item-title>
 
             <v-list-item-subtitle>
               you have no notifications
-              <v-icon icon="fa fa-check" color="green" size="small" />
             </v-list-item-subtitle>
           </v-list-item>
         </v-list>

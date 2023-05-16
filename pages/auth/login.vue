@@ -37,8 +37,7 @@ const attemptLogin = async () => {
 
 const logIn = ({ user, token }: ApiLoginResponse) => {
   authStore.logIn({ bearerToken: token.value, user })
-
-  if (user.masterAccessLevel) navigateTo('/master')
+  navigateTo(user.masterAccessLevel ? '/master' : '/tracked')
 }
 </script>
 
@@ -104,7 +103,23 @@ const logIn = ({ user, token }: ApiLoginResponse) => {
                 variant="flat"
                 block
               >
-                DEV LOGIN
+                MASTER LOGIN
+              </v-btn>
+
+              <v-btn
+                @click="
+                  () => {
+                    formState.email = 'testuser@gmail.com'
+                    formState.password = 'testuser'
+                    attemptLogin()
+                  }
+                "
+                class="mt-3 py-6 text-white text-h6 ml-0"
+                color="green"
+                variant="flat"
+                block
+              >
+                TRACKED LOGIN
               </v-btn>
             </DevOnly>
           </v-card-actions>

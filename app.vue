@@ -8,11 +8,7 @@ const layout = computed(() => {
     return 'default'
   }
 
-  if (authStore.isMasterUser) {
-    return 'master-dashboard'
-  }
-
-  return 'master-dashboard'
+  return authStore.isMasterUser ? 'master-dashboard' : 'tracked-dashboard'
 })
 </script>
 

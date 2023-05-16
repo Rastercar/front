@@ -11,9 +11,10 @@ interface SideBarRoute {
 }
 
 const routes: SideBarRoute[] = [
-  { icon: 'fa fa-home', title: 'Home', to: '/master' },
+  { icon: 'fa fa-home', title: 'Home', to: '/tracked' },
   { icon: 'fa fa-user', title: 'My Profile', to: '/account/profile' },
-  { icon: 'fa fa-users', title: 'Users', to: '/master/users' },
+  { icon: 'fa fa-users', title: 'Users', to: '/tracked/users' },
+  { icon: 'fa fa-globe', title: 'Map', to: '/tracked/map' },
 ]
 
 const authStore = useAuthStore()

@@ -15,6 +15,15 @@ export interface User {
   masterAccessLevel: AccessLevel
 }
 
+export interface Organization {
+  id: number
+  name: string
+  blocked: boolean
+  createdAt: string
+  billingEmail: string
+  billingEmailVerified: boolean
+}
+
 export interface UnregisteredUser {
   createdAt: string
   updatedAt: string
@@ -32,4 +41,15 @@ export interface AccessLevel {
   description: string
   isFixed: boolean
   permissions: string[]
+}
+
+export interface Paginated<T = unknown> {
+  records: T[]
+
+  metadata: {
+    total: number
+    limit: number
+    count: number
+    offset: number
+  }
 }

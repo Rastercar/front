@@ -5,11 +5,12 @@ const { resolve } = createResolver(import.meta.url)
 
 // https://v3.nuxtjs.org/api/configuration/nuxt.config
 export default defineNuxtConfig({
+  ssr: false,
   css: [
     'vuetify/lib/styles/main.sass',
     '@fortawesome/fontawesome-free/css/all.css',
   ],
-  modules: ['@pinia/nuxt', '@pinia-plugin-persistedstate/nuxt'],
+  modules: ['@pinia/nuxt', '@pinia-plugin-persistedstate/nuxt', '@vueuse/nuxt'],
   build: {
     transpile: ['vuetify'],
   },
@@ -21,6 +22,11 @@ export default defineNuxtConfig({
       apiBaseUrl: 'http://localhost:3000/',
     },
   },
+
+  // TODO: enable once: https://github.com/nuxt/nuxt/issues/15412
+  // is fixed
+  sourcemap: false,
+
   vite: {
     define: {
       'process.env.DEBUG': false,
