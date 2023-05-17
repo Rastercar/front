@@ -38,8 +38,8 @@ if (authStore.user) {
 </script>
 
 <template>
-  <client-only>
-    <v-btn class="mr-2">
+  <v-btn>
+    <client-only>
       <v-menu
         activator="parent"
         :close-on-content-click="false"
@@ -113,6 +113,6 @@ if (authStore.user) {
       </v-badge>
 
       <v-icon v-show="!nStore.hasPendingNotification" icon="fa fa-bell" />
-    </v-btn>
-  </client-only>
+    </client-only>
+  </v-btn>
 </template>

@@ -35,8 +35,10 @@ const attemptLogin = async () => {
   pending.value = false
 }
 
-const logIn = ({ user, token }: ApiLoginResponse) => {
-  authStore.logIn({ bearerToken: token.value, user })
+const logIn = ({ user: u, token }: ApiLoginResponse) => {
+  const { organization, ...user } = u
+
+  authStore.logIn({ bearerToken: token.value, user, organization })
   navigateTo(user.masterAccessLevel ? '/master' : '/tracked')
 }
 </script>

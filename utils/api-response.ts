@@ -1,5 +1,5 @@
 /**
- * The default interface for the rastecar API errors
+ * The default interface for the rastercar API errors
  */
 interface ApiErrorResponse {
   error: string

@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { User } from '~~/api/types'
+import { Organization, User } from '~~/api/types'
 
 interface AuthState {
   /**
@@ -17,13 +17,13 @@ interface AuthState {
    * its the organization that he belongs too, if the user is a master user its the organization he selected to
    * access its dashboard / pages
    */
-  organizationId: number | null
+  organization: Organization | null
 }
 
 interface LoginArgs {
   user: User
   bearerToken: string
-  organizationId?: number | null
+  organization?: Organization | null
 }
 
 export const useAuthStore = defineStore('auth', {
@@ -32,7 +32,7 @@ export const useAuthStore = defineStore('auth', {
   state: (): AuthState => ({
     user: null,
     apiToken: null,
-    organizationId: null,
+    organization: null,
   }),
 
   getters: {
@@ -41,16 +41,18 @@ export const useAuthStore = defineStore('auth', {
   },
 
   actions: {
-    logIn({ bearerToken, organizationId, user }: LoginArgs) {
+    logIn({ bearerToken, organization, user }: LoginArgs) {
       this.user = user
       this.apiToken = bearerToken
-      this.organizationId = organizationId ?? null
+      this.organization = organization ?? null
+
+      console.log(this.organization)
     },
 
     logOut() {
       this.user = null
       this.apiToken = null
-      this.organizationId = null
+      this.organization = null
     },
 
     setUserEmailVerified(emailVerified: boolean) {

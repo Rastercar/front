@@ -25,26 +25,21 @@ const onOrganizationSelected = (org: Organization) => {
 const authStore = useAuthStore()
 
 const accessClientDashboard = () => {
-  if (!selectedOrg.value) return
+  const org: Organization | null = unref(selectedOrg)
 
-  const orgId = selectedOrg.value.id
+  if (!org) return
 
   display.value = 'loading-message'
 
   setTimeout(() => {
-    authStore.organizationId = orgId
+    authStore.organization = org
     navigateTo('/tracked')
   }, 2 * 1000)
 }
 </script>
 
 <template>
-  <v-dialog
-    v-model="props.modelValue"
-    width="auto"
-    overlay-color="red"
-    overlay-opacity="1"
-  >
+  <v-dialog v-model="props.modelValue" width="auto">
     <div class="text-center" v-if="display === 'loading-message'">
       <div class="text-h3 mb-6 font-weight-black">
         accessing client panel...

@@ -11,14 +11,11 @@ const logout = () => {
 
 <template>
   <v-app-bar title="Rastercar">
-    <ButtonUserNotifications class="mr-2" />
+    <AlertAccessingClientPanel v-if="authStore.isMasterUser" />
 
-    <v-btn
-      class="ml-auto mr-2 px-4"
-      prepend-icon="fa fa-door-open"
-      variant="outlined"
-      @click="logout"
-    >
+    <ButtonUserNotifications v-else class="mx-4" />
+
+    <v-btn prepend-icon="fa fa-door-open" variant="outlined" @click="logout">
       Log out
     </v-btn>
   </v-app-bar>

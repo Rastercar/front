@@ -12,7 +12,7 @@ export interface User {
   email: string
   emailVerified: boolean
   accessLevel: AccessLevel
-  masterAccessLevel: AccessLevel
+  masterAccessLevel?: AccessLevel
 }
 
 export interface Organization {
@@ -30,6 +30,10 @@ export interface UnregisteredUser {
   username: string | null
   email: string | null
   emailVerified: boolean
+
+  /**
+   * eg: `google`, `facebook`
+   */
   oauthProvider: string
 }
 
@@ -39,7 +43,15 @@ export interface AccessLevel {
   updatedAt: string
   name: string
   description: string
+
+  /**
+   * if the access level cannot be deleted nor edited
+   */
   isFixed: boolean
+
+  /**
+   * eg: `['create-user', 'send-alert']`
+   */
   permissions: string[]
 }
 

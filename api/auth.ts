@@ -1,7 +1,8 @@
-import { Token, User } from './types'
+import { Organization, Token, User } from './types'
 
 export interface ApiLoginResponse {
-  user: User
+  // If the user that logged in is not a master user, its organization will be returned
+  user: User & { organization?: Organization }
   token: Token
 }
 
