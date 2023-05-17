@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { VDataTableServer, VDataTableRow } from 'vuetify/lib/labs/components'
+import { VDataTableServer } from 'vuetify/lib/labs/components'
 import { Organization, Paginated } from '@/api/types'
 
 interface DataTableOptions {

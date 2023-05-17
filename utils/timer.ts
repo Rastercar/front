@@ -1,7 +1,6 @@
 const wait = (ms: number) =>
   new Promise<void>((resolve) => {
     setTimeout(() => {
-      console.log('waited')
       resolve()
     }, ms)
   })

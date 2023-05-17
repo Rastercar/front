@@ -1,5 +1,8 @@
 <script setup lang="ts">
-definePageMeta({ requiredLoginStatus: 'loggedIn' })
+definePageMeta({
+  requiredLoginStatus: 'loggedIn',
+  layout: 'tracked-dashboard',
+})
 </script>
 
 <template>
