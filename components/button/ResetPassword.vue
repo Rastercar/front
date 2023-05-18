@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { useAuthStore } from '@/store/auth.store'
-import { Socket } from 'socket.io-client'
 import { SendEmailResponse } from '~~/api/auth'
 
 const props = defineProps({

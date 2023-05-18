@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { Organization } from '~/api/types'
-import { useAuthStore } from '~~/store/auth.store'
 
 type displayMode = 'data-table' | 'selected-organization' | 'loading-message'
 

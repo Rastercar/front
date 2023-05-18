@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { useAuthStore } from '~~/store/auth.store'
-
 const props = defineProps({
   openAsPopup: {
     type: Boolean,
@@ -28,7 +26,7 @@ const openOauthPopup = () => {
   const popupParams =
     'scrollbars=no,resizable=no,status=no,location=no,toolbar=no,menubar=no,width=600,height=300,left=100,top=100'
 
-  const newWindow = window.open(authEndpointUrl, 'oauthPopoup', popupParams)
+  const newWindow = window.open(authEndpointUrl, 'oauthPopup', popupParams)
   if (!newWindow) throw new Error('failed to open oauth popup')
 
   newWindow.focus()

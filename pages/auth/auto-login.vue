@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { HTTP_STATUS } from '~~/constants/http-status'
-import { useAuthStore } from '~~/store/auth.store'
 import { ApiLoginResponse } from '~~/api/auth'
 
 const authStore = useAuthStore()

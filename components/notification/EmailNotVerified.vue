@@ -1,8 +1,7 @@
 <script setup lang="ts">
+import { useNotificationsStore } from '~~/store/notifications.store'
 import { SendEmailResponse } from '~~/api/auth'
 import { Socket } from 'socket.io-client'
-import { useNotificationsStore } from '~~/store/notifications.store'
-import { useAuthStore } from '~~/store/auth.store'
 
 type status =
   | 'not_sent'

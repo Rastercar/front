@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { useAuthStore } from '~~/store/auth.store'
-
 const auth = useAuthStore()
 
 const hasGoogleProfile = computed(() =>

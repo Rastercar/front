@@ -1,15 +1,7 @@
 <script setup lang="ts">
-import { useAuthStore } from '~~/store/auth.store'
-
 definePageMeta({ requiredLoginStatus: 'loggedIn' })
 
 const auth = useAuthStore()
-
-const hasGoogleProfile = computed(() =>
-  auth.userLinkedProfiles.includes('google')
-)
-
-const showOauthDialog = ref(false)
 </script>
 
 <template>
@@ -33,8 +25,8 @@ const showOauthDialog = ref(false)
         <v-text-field label="Email" />
         <v-text-field label="Password" />
 
-        <!-- only master users can have social accounts linked to their rastercar account -->
-        <ProfileLinkedSocialAccounts v-if="auth.isMasterUser" />
+        <!-- only regular users can have social accounts linked to their rastercar account -->
+        <ProfileLinkedSocialAccounts v-if="!auth.isMasterUser" />
       </v-card>
     </v-row>
   </v-container>

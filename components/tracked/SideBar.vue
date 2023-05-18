@@ -1,8 +1,6 @@
 <script setup lang="ts">
-import { useAuthStore } from '~~/store/auth.store'
-import { useLayoutStore } from '~~/store/layout.store'
-
 const layoutStore = useLayoutStore()
+const authStore = useAuthStore()
 
 interface SideBarRoute {
   to: string
@@ -16,8 +14,6 @@ const routes: SideBarRoute[] = [
   { icon: 'fa fa-users', title: 'Users', to: '/tracked/users' },
   { icon: 'fa fa-globe', title: 'Map', to: '/tracked/map' },
 ]
-
-const authStore = useAuthStore()
 </script>
 
 <template>

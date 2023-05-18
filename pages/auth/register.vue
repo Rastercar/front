@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { useAuthStore } from '@/store/auth.store'
 import { UnregisteredUser } from '@/api/types'
 import { ApiLoginResponse } from '@/api/auth'
 import { API_ERROR } from '@/api/error-codes'

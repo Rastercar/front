@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import { HTTP_STATUS } from '~~/constants/http-status'
+import { toast } from 'vue3-toastify'
+
 const emit = defineEmits<{
   (event: 'update:model-value', v: boolean): void
 }>()
@@ -8,20 +11,40 @@ const props = defineProps({
   oauthProviderName: { type: String, required: true },
 })
 
+const integrationRemoved = ref(false)
+const requestOngoing = ref(false)
 const showWarning = ref(false)
 
-const textInput = ref('')
+const confirmationInput = ref('')
+
+const auth = useAuthStore()
+
+const { execute, pending } = useApi<string>('user/remove-google-account', {
+  method: 'PATCH',
+  immediate: false,
+  onResponse({ response }) {
+    if (response.status === HTTP_STATUS.OK) {
+      showWarning.value = false
+      integrationRemoved.value = true
+
+      if (auth.user) auth.user.googleProfileId = undefined
+    } else {
+      toast.error('failed to unlink your account')
+    }
+  },
+})
 
 const confirmation = 'unlink account'
 
-const onRemoveLinkClick = () => {
+const onRemoveLinkClick = async () => {
   if (!showWarning.value) {
     showWarning.value = true
     return
   }
 
-  if (textInput.value === confirmation) {
-    // TODO:!
+  if (confirmationInput.value === confirmation) {
+    requestOngoing.value = true
+    await execute().finally(() => (requestOngoing.value = false))
   }
 }
 
@@ -40,13 +63,26 @@ const close = () => {
     <v-card max-width="650">
       <v-card-title class="d-flex align-center mx-2 mt-2">
         Profile Info
-        <v-btn class="ml-auto" icon="fa fa-close" size="sm" flat @click="close">
-        </v-btn>
+        <v-btn
+          v-show="!integrationRemoved"
+          class="ml-auto"
+          icon="fa fa-close"
+          size="sm"
+          flat
+          @click="close"
+        />
       </v-card-title>
 
       <v-card-text class="text-grey-darken-3 pt-2">
-        your rastercar account is linked with your
-        {{ oauthProviderName }} account.
+        <template v-if="integrationRemoved">
+          Success, your {{ oauthProviderName }} is no longer linked to your
+          rastercar account
+        </template>
+
+        <template v-else>
+          your rastercar account is linked with your
+          {{ oauthProviderName }} account.
+        </template>
       </v-card-text>
 
       <div class="px-6" v-show="showWarning">
@@ -71,7 +107,7 @@ const close = () => {
         </v-alert>
 
         <v-text-field
-          v-model="textInput"
+          v-model="confirmationInput"
           :placeholder="confirmation"
           hide-details
           variant="outlined"
@@ -80,14 +116,27 @@ const close = () => {
 
       <v-card-actions class="ma-4">
         <v-btn
+          v-if="!integrationRemoved"
           color="red"
           variant="flat"
           append-icon="fa fa-warning"
           class="px-4 ml-auto"
-          :disabled="showWarning && textInput !== confirmation"
+          :loading="pending && requestOngoing"
+          :disabled="showWarning && confirmationInput !== confirmation"
           @click="onRemoveLinkClick"
         >
           remove link
+        </v-btn>
+
+        <v-btn
+          v-else
+          color="green"
+          variant="flat"
+          append-icon="fa fa-check"
+          class="px-4 ml-auto"
+          @click="() => emit('update:model-value', false)"
+        >
+          close
         </v-btn>
       </v-card-actions>
     </v-card>

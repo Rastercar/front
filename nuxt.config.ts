@@ -22,6 +22,10 @@ export default defineNuxtConfig({
     strict: true,
   },
 
+  imports: {
+    dirs: ['store'],
+  },
+
   runtimeConfig: {
     public: {
       apiBaseUrl: 'http://localhost:3000/',

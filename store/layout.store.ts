@@ -7,7 +7,6 @@ interface LayoutState {
   }
 }
 
-// TODO: add all stores to nuxt auto imports
 export const useLayoutStore = defineStore('layout', {
   persist: true,
 
