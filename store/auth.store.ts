@@ -1,6 +1,9 @@
 import { defineStore } from 'pinia'
 import { Organization, User } from '~~/api/types'
 
+// supported oauth providers a user
+type oauthProviders = 'google'
+
 interface AuthState {
   /**
    * The logged in user
@@ -38,6 +41,8 @@ export const useAuthStore = defineStore('auth', {
   getters: {
     isLoggedIn: (state) => state.apiToken !== null,
     isMasterUser: (state) => !!state.user?.masterAccessLevel,
+    userLinkedProfiles: (state): oauthProviders[] =>
+      state.user?.googleProfileId ? ['google'] : [],
   },
 
   actions: {
@@ -45,8 +50,6 @@ export const useAuthStore = defineStore('auth', {
       this.user = user
       this.apiToken = bearerToken
       this.organization = organization ?? null
-
-      console.log(this.organization)
     },
 
     logOut() {

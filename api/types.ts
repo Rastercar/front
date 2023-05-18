@@ -11,7 +11,22 @@ export interface User {
   lastLogin: string
   email: string
   emailVerified: boolean
+
+  /**
+   * if undefined the user is not linked to a google account
+   */
+  googleProfileId?: string
+
+  /**
+   * the access level for the client dashboard, if the user is a master user
+   * this is the permissions this master user has when accessing a client org
+   */
   accessLevel: AccessLevel
+
+  /**
+   * the access level for the tracker dashboard / actions,
+   * if undefined the user is not a master user
+   */
   masterAccessLevel?: AccessLevel
 }
 
