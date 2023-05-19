@@ -84,64 +84,59 @@ const submitForm = async () => {
 
 <template>
   <v-card bordered class="q-pa-md shadow-1">
-    <v-card-title class="text-center mt-4">Create an Account</v-card-title>
+    <v-card-title class="text-center mt-4">Create Account</v-card-title>
 
-    <v-form>
-      <div class="pa-4">
-        <RegisterUsernameInput
-          v-model="formState.username"
-          :loading="isFetchingUser"
-          :disable="isFetchingUser"
-        />
+    <v-form class="pa-6">
+      <RegisterUsernameInput
+        v-model="formState.username"
+        :loading="isFetchingUser"
+        :disable="isFetchingUser"
+        class="mb-2"
+      />
 
-        <InputUserEmail
-          v-model="formState.email"
-          v-model:willCheckEmail="willCheckEmail"
-          v-model:isCheckingEmail="isCheckingEmail"
-          :loading="isFetchingUser"
-          :disable="isFetchingUser"
-          :emails-in-use="invalidEmails"
-        />
+      <InputUserEmail
+        v-model="formState.email"
+        v-model:willCheckEmail="willCheckEmail"
+        v-model:isCheckingEmail="isCheckingEmail"
+        :loading="isFetchingUser"
+        :disable="isFetchingUser"
+        :emails-in-use="invalidEmails"
+        class="mb-2"
+      />
 
-        <InputPassword
-          v-model="formState.password"
-          v-model:visible="isPasswordVisible"
-        />
+      <InputPassword
+        v-model="formState.password"
+        v-model:visible="isPasswordVisible"
+        class="mb-2"
+      />
 
-        <InputPasswordConfirmation
-          v-model="passwordConfirmation"
-          :visible="isPasswordVisible"
-          :password-to-match="formState.password"
-        />
-      </div>
-
-      <v-card-actions class="px-4 flex-row mb-3">
-        <div class="col-6 mr-4">
-          <v-btn
-            class="text-white py-6"
-            color="green"
-            prepend-icon="fa fa-angle-left"
-            block
-            @click="() => navigateTo('/')"
-          >
-            go back
-          </v-btn>
-        </div>
-
-        <div class="col-6">
-          <v-btn
-            class="text-white py-6 text-h6"
-            color="blue"
-            variant="flat"
-            block
-            :loading="loading"
-            :disabled="!canSubmit"
-            @click="submitForm"
-          >
-            CREATE ACCOUNT
-          </v-btn>
-        </div>
-      </v-card-actions>
+      <InputPasswordConfirmation
+        v-model="passwordConfirmation"
+        :visible="isPasswordVisible"
+        :password-to-match="formState.password"
+      />
     </v-form>
+
+    <v-card-actions class="px-6 mb-3">
+      <v-btn
+        color="blue"
+        variant="flat"
+        prepend-icon="fa fa-angle-left"
+        @click="() => navigateTo('/')"
+        class="mr-3"
+      >
+        go back
+      </v-btn>
+
+      <v-btn
+        color="primary"
+        variant="flat"
+        :loading="loading"
+        :disabled="!canSubmit"
+        @click="submitForm"
+      >
+        create account
+      </v-btn>
+    </v-card-actions>
   </v-card>
 </template>

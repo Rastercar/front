@@ -38,7 +38,7 @@ const v = useVuelidate(rules, props, { $autoDirty: true })
     v-bind="({ ...$props, ...$attrs } as any)"
     :error="v.modelValue.$error"
     :error-messages="getVuelidateErrorMsg(v.modelValue.$errors)"
-    outlined
+    variant="outlined"
     required
     prepend-inner-icon="fa fa-envelope"
     type="email"

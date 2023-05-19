@@ -73,7 +73,7 @@ const close = () => {
         />
       </v-card-title>
 
-      <v-card-text class="text-grey-darken-3 pt-2">
+      <v-card-text class="pt-2">
         <template v-if="integrationRemoved">
           Success, your {{ oauthProviderName }} is no longer linked to your
           rastercar account

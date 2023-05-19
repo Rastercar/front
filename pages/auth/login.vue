@@ -45,88 +45,94 @@ const logIn = ({ user: u, token }: ApiLoginResponse) => {
 <template>
   <v-container fluid fill-height class="ma-0 pa-0">
     <v-row align="center" justify="center">
-      <v-card width="400px" class="elevation-5">
-        <v-toolbar color="#355C7D" class="mb-4" flat>
-          <v-card-title class="text-white w-100 text-center">
-            Welcome to Rastercar
-          </v-card-title>
-        </v-toolbar>
+      <v-col>
+        <img src="/img/login-background.svg" alt="login background" />
+      </v-col>
 
-        <v-form>
-          <div class="pa-4">
-            <LoginEmailInput
-              v-model="formState.email"
-              :user-with-email-not-found="userEmailNotFound"
-              class="mb-2"
-              @update:modelValue="userEmailNotFound = false"
-            />
+      <v-col align="center">
+        <v-card width="400px" class="elevation-5">
+          <v-toolbar color="#355C7D" class="mb-4" flat>
+            <v-card-title class="text-white w-100 text-center">
+              Welcome to Rastercar
+            </v-card-title>
+          </v-toolbar>
 
-            <LoginPasswordInput
-              v-model="formState.password"
-              :disabled="pending && firedLoginRequest"
-              :is-invalid="passwordIsInvalid"
-              @update:modelValue="passwordIsInvalid = false"
-            />
-          </div>
+          <v-form>
+            <div class="pa-4">
+              <LoginEmailInput
+                v-model="formState.email"
+                :user-with-email-not-found="userEmailNotFound"
+                class="mb-2"
+                @update:modelValue="userEmailNotFound = false"
+              />
 
-          <v-card-actions class="px-4 flex-column">
-            <v-btn
-              @click="attemptLogin"
-              class="text-white py-6 mb-3 text-h6"
-              color="blue-darken-4"
-              variant="flat"
-              block
-            >
-              SIGN IN
-            </v-btn>
+              <LoginPasswordInput
+                v-model="formState.password"
+                :disabled="pending && firedLoginRequest"
+                :is-invalid="passwordIsInvalid"
+                @update:modelValue="passwordIsInvalid = false"
+              />
+            </div>
 
-            <LoginGoogleButton
-              class="text-white py-6 ml-0 text-h6"
-              color="grey-darken-1"
-              variant="flat"
-              block
-            >
-              SIGN IN WITH GOOGLE
-            </LoginGoogleButton>
-
-            <DevOnly>
+            <v-card-actions class="px-4 flex-column">
               <v-btn
-                @click="
-                  () => {
-                    formState.email = 'rastercar.tests.001@gmail.com'
-                    formState.password = 'masteruser1'
-                    attemptLogin()
-                  }
-                "
-                class="mt-3 py-6 text-white text-h6 ml-0"
-                color="green"
+                @click="attemptLogin"
+                class="text-white py-6 mb-3 text-h6"
+                color="blue-darken-4"
                 variant="flat"
                 block
               >
-                MASTER LOGIN
+                SIGN IN
               </v-btn>
 
-              <v-btn
-                @click="
-                  () => {
-                    formState.email = 'testuser@gmail.com'
-                    formState.password = 'testuser'
-                    attemptLogin()
-                  }
-                "
-                class="mt-3 py-6 text-white text-h6 ml-0"
-                color="green"
+              <LoginGoogleButton
+                class="text-white py-6 ml-0 text-h6"
+                color="grey-darken-1"
                 variant="flat"
                 block
               >
-                TRACKED LOGIN
-              </v-btn>
-            </DevOnly>
-          </v-card-actions>
+                SIGN IN WITH GOOGLE
+              </LoginGoogleButton>
 
-          <LoginCardFooter class="mb-6 mt-4" />
-        </v-form>
-      </v-card>
+              <DevOnly>
+                <v-btn
+                  @click="
+                    () => {
+                      formState.email = 'rastercar.tests.001@gmail.com'
+                      formState.password = 'masteruser1'
+                      attemptLogin()
+                    }
+                  "
+                  class="mt-3 py-6 text-white text-h6 ml-0"
+                  color="green"
+                  variant="flat"
+                  block
+                >
+                  MASTER LOGIN
+                </v-btn>
+
+                <v-btn
+                  @click="
+                    () => {
+                      formState.email = 'testuser@gmail.com'
+                      formState.password = 'testuser'
+                      attemptLogin()
+                    }
+                  "
+                  class="mt-3 py-6 text-white text-h6 ml-0"
+                  color="green"
+                  variant="flat"
+                  block
+                >
+                  TRACKED LOGIN
+                </v-btn>
+              </DevOnly>
+            </v-card-actions>
+
+            <LoginCardFooter class="mb-6 mt-4" />
+          </v-form>
+        </v-card>
+      </v-col>
     </v-row>
   </v-container>
 </template>
