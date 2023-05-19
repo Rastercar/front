@@ -1,11 +1,25 @@
 <script setup lang="ts">
+import { oauthProvider } from '@/store/auth.store'
+
 const auth = useAuthStore()
 
 const hasGoogleProfile = computed(() =>
   auth.userLinkedProfiles.includes('google')
 )
 
-const showOauthDialog = ref(false)
+const selectedOauthProvider = ref<oauthProvider>('google')
+
+const showRemoveOauthDialog = ref(false)
+const showAddOauthDialog = ref(false)
+
+const openOauthModal = (provider: oauthProvider) => {
+  selectedOauthProvider.value = provider
+
+  const userHasProvider = auth.userLinkedProfiles.includes(provider)
+
+  showRemoveOauthDialog.value = userHasProvider
+  showAddOauthDialog.value = !userHasProvider
+}
 </script>
 
 <template>
@@ -30,19 +44,23 @@ const showOauthDialog = ref(false)
         />
 
         <v-icon
-          v-if="hasGoogleProfile"
-          icon="fa fa-cog"
+          :icon="hasGoogleProfile ? 'fa fa-cog' : 'fa fa-plus'"
           size="sm"
           class="mb-4"
-          color="grey-darken-1"
-          @click="showOauthDialog = !showOauthDialog"
+          :color="hasGoogleProfile ? 'grey-darken-1' : 'green-darken-1'"
+          @click="() => openOauthModal('google')"
         />
       </template>
     </v-tooltip>
 
     <DialogRemoveProfileIntegration
-      v-model="showOauthDialog"
-      oauth-provider-name="google"
+      v-model="showRemoveOauthDialog"
+      :oauth-provider-name="selectedOauthProvider"
+    />
+
+    <DialogAddProfileIntegration
+      v-model="showAddOauthDialog"
+      :oauth-provider-name="selectedOauthProvider"
     />
   </div>
 </template>

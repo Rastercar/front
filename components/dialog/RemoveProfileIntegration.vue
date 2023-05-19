@@ -23,7 +23,7 @@ const { execute, pending } = useApi<string>('user/remove-google-account', {
   method: 'PATCH',
   immediate: false,
   onResponse({ response }) {
-    if (response.status === HTTP_STATUS.OK) {
+    if (response.ok) {
       showWarning.value = false
       integrationRemoved.value = true
 
