@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { helpers, email, required } from '@vuelidate/validators'
-import { computed, PropType, ref, Ref } from 'vue'
+import { computed, PropType, ref } from 'vue'
 import { useVuelidate } from '@vuelidate/core'
 
 const props = defineProps({
@@ -19,7 +19,7 @@ const props = defineProps({
 
   /**
    * Notifies the field value will be checked for validity and the input
-   * can be invalid after this, therefore a form should cannot be submited
+   * can be invalid after this, therefore a form should cannot be submitted
    * while this is true.
    */
   willCheckEmail: {
@@ -46,7 +46,7 @@ const props = defineProps({
 
   /**
    * List of emails that will not trigger the emailInUse error regardless
-   * if theyre in use or not.
+   * if they are in use or not.
    *
    * example: The original email of the user, master user or organization
    * being edited
