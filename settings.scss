@@ -1,9 +1,13 @@
 // https://vuetifyjs.com/en/features/sass-variables/#usage-in-templates
 
 @use 'vuetify' with (
+  // It would be nice to remove the vuetify css reset to save more kbs, but a few components rely
+  // on it and so they have unpredictable behavior, perhaps we can remove the reset and manually
+  // solve the conflicts one day
+  // $reset: false,
+  //
   // Here we disable utilities and the color pack as they
   // are not tree shaken and significantly increase bundle size
-  $reset: false,
   $utilities: false,
   $color-pack: false
 );

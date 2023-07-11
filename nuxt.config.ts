@@ -14,9 +14,8 @@ export default defineNuxtConfig({
   ssr: false,
 
   css: [
-    '~/assets/css/main.css',
     '~/settings.scss',
-    // 'vuetify/lib/styles/main.sass',
+    '~/assets/css/main.css',
     '@fortawesome/fontawesome-free/css/all.css',
   ],
 
@@ -55,15 +54,4 @@ export default defineNuxtConfig({
       'process.env.DEBUG': false,
     },
   },
-
-  // hooks: {
-  //   // make nuxt load vuetify settings so you can override sass variables and such, if needed
-  //   'vite:extendConfig': (config) => {
-  //     config.plugins?.push(
-  //       vuetify({
-  //         // styles: { configFile: resolve('./settings.scss') },
-  //       })
-  //     )
-  //   },
-  // },
 })

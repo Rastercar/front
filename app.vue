@@ -4,9 +4,7 @@ const authStore = useAuthStore()
 const route = useRoute()
 
 const layout = computed(() => {
-  if (!authStore.isLoggedIn) {
-    return 'default'
-  }
+  if (!authStore.isLoggedIn) return 'default'
 
   if (route.meta.layout) return route.meta.layout
 

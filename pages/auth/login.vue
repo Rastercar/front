@@ -62,7 +62,6 @@ const logIn = ({ user: u, token }: ApiLoginResponse) => {
               <LoginEmailInput
                 v-model="formState.email"
                 :user-with-email-not-found="userEmailNotFound"
-                class="ma-12"
                 @update:modelValue="userEmailNotFound = false"
               />
 
@@ -74,10 +73,10 @@ const logIn = ({ user: u, token }: ApiLoginResponse) => {
               />
             </div>
 
-            <v-card-actions class="tw-px-4 flex-col">
+            <v-card-actions class="tw-px-4 tw-flex-col">
               <v-btn
                 @click="attemptLogin"
-                class="text-white py-6 mb-3 text-h6"
+                class="tw-text-white tw-py-6 tw-mb-3 tw-text-lg"
                 color="blue-darken-4"
                 variant="flat"
                 block
