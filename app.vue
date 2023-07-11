@@ -19,7 +19,3 @@ const layout = computed(() => {
     <NuxtLayout :name="layout" />
   </v-app>
 </template>
-
-<style lang="scss">
-@use './settings';
-</style>

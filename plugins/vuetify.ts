@@ -1,11 +1,13 @@
-import { ThemeDefinition, createVuetify } from 'vuetify'
 import { aliases, fa } from 'vuetify/iconsets/fa'
 import * as components from 'vuetify/components'
 import * as directives from 'vuetify/directives'
+import { createVuetify } from 'vuetify'
 
 export default defineNuxtPlugin((nuxtApp) => {
   const vuetify = createVuetify({
-    ssr: true,
+    // Keep in sync with nuxt.config.ts ssr prop
+    ssr: false,
+
     icons: {
       sets: { fa },
       aliases,

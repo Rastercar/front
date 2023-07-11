@@ -43,14 +43,14 @@ const logIn = ({ user: u, token }: ApiLoginResponse) => {
 </script>
 
 <template>
-  <v-container fluid fill-height class="ma-0 pa-0">
+  <v-container fluid fill-height class="m-0 p-0">
     <v-row align="center" justify="center">
       <v-col cols="12" sm="12" md="6" class="tw-p-8">
         <img src="/img/login-background.svg" alt="login background" />
       </v-col>
 
       <v-col cols="12" sm="12" md="6" align="center">
-        <v-card class="elevation-5 sm:tw-w-full md:tw-w-3/4 lg:tw-w-1/2">
+        <v-card class="sm:tw-w-full md:tw-w-3/4 lg:tw-w-1/2">
           <v-toolbar color="#355C7D" class="mb-4" flat>
             <v-card-title class="text-white w-100 text-center">
               Welcome to Rastercar
@@ -62,7 +62,7 @@ const logIn = ({ user: u, token }: ApiLoginResponse) => {
               <LoginEmailInput
                 v-model="formState.email"
                 :user-with-email-not-found="userEmailNotFound"
-                class="mb-2"
+                class="ma-12"
                 @update:modelValue="userEmailNotFound = false"
               />
 
@@ -74,7 +74,7 @@ const logIn = ({ user: u, token }: ApiLoginResponse) => {
               />
             </div>
 
-            <v-card-actions class="px-4 flex-column">
+            <v-card-actions class="tw-px-4 flex-col">
               <v-btn
                 @click="attemptLogin"
                 class="text-white py-6 mb-3 text-h6"

@@ -5,11 +5,18 @@ const { resolve } = createResolver(import.meta.url)
 
 // https://v3.nuxtjs.org/api/configuration/nuxt.config
 export default defineNuxtConfig({
+  /**
+   * SSR has a lot of gotchas, such as lib components and vue plugins that rely
+   * on document or window being rendered on a node environment and failing, etc.
+   *
+   * going to SSR would require a major refactor/testing, so for now keep it disabled
+   */
   ssr: false,
 
   css: [
     '~/assets/css/main.css',
-    'vuetify/lib/styles/main.sass',
+    '~/settings.scss',
+    // 'vuetify/lib/styles/main.sass',
     '@fortawesome/fontawesome-free/css/all.css',
   ],
 
@@ -49,13 +56,14 @@ export default defineNuxtConfig({
     },
   },
 
-  hooks: {
-    'vite:extendConfig': (config) => {
-      config.plugins?.push(
-        vuetify({
-          styles: { configFile: resolve('./settings.scss') },
-        })
-      )
-    },
-  },
+  // hooks: {
+  //   // make nuxt load vuetify settings so you can override sass variables and such, if needed
+  //   'vite:extendConfig': (config) => {
+  //     config.plugins?.push(
+  //       vuetify({
+  //         // styles: { configFile: resolve('./settings.scss') },
+  //       })
+  //     )
+  //   },
+  // },
 })

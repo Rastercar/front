@@ -1,6 +1,9 @@
 // https://vuetifyjs.com/en/features/sass-variables/#usage-in-templates
-//
-// @forward 'vuetify/settings' with (
-//   $utilities: false,
-//   $button-height: 40px,
-// );
+
+@use 'vuetify' with (
+  // Here we disable utilities and the color pack as they
+  // are not tree shaken and significantly increase bundle size
+  $reset: false,
+  $utilities: false,
+  $color-pack: false
+);
